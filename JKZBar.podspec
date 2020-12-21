@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JKZBar'
-  s.version          = '0.1.5'
+  s.version          = '0.1.6'
   s.summary          = 'A short description of JKZBar.'
 
 # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'JKZBar/**/*'
+  s.source_files = '**/*.{h,m,c]}'
   
   # s.resource_bundles = {
   #   'JKZBar' => ['JKZBar/Assets/*.png']
