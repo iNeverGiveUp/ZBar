@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------
-//  Copyright 2009-2010 (c) Jeff Brown <spadix@users.sourceforge.net>
+//  Copyright 2007-2009 (c) Jeff Brown <spadix@users.sourceforge.net>
 //
 //  This file is part of the ZBar Bar Code Reader.
 //
@@ -21,39 +21,23 @@
 //  http://sourceforge.net/projects/zbar
 //------------------------------------------------------------------------
 
-#import <UIKit/UIKit.h>
+// NB do not put anything before this header
+// it's here to check that we didn't omit any dependencies
+#include <zbar.h>
 
-@class ZBarHelpController;
-
-@protocol ZBarHelpDelegate
-@optional
-
-- (void) helpControllerDidFinish: (ZBarHelpController*) help;
-
-@end
-
-
-// failure dialog w/a few useful tips
-
-@interface ZBarHelpController : UIViewController
-                              <
-                                UIAlertViewDelegate >
+int main (int argc, char **argv)
 {
-    NSString *reason;
-    id delegate;
-    UIToolbar *toolbar;
-    UIBarButtonItem *doneBtn, *backBtn, *space;
-    NSURL *linkURL;
-    NSUInteger orientations;
+    const char *video_dev = "/dev/video0";
+    if(argc > 1)
+        video_dev = argv[1];
+
+    zbar::Processor proc = zbar::Processor(true, video_dev);
+    proc.set_visible();
+    proc.set_active();
+    try {
+        proc.user_wait();
+    }
+    catch(zbar::ClosedError) { }
+    
+    return(0);
 }
-
-@property (nonatomic, assign) id<ZBarHelpDelegate> delegate;
-
-// designated initializer
-- (id) initWithReason: (NSString*) reason;
-
-- (BOOL) isInterfaceOrientationSupported: (UIInterfaceOrientation) orientation;
-- (void) setInterfaceOrientation: (UIInterfaceOrientation) orientation
-                       supported: (BOOL) supported;
-
-@end
